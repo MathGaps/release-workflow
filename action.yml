@@ -1,9 +1,6 @@
 name: 'Release'
 description: 'Allows semantic-release to be executed in a monorepo'
 inputs:
-  entry-point:
-    description: 'The directory of the package to release.'
-    required: true
   github-token:
     description: 'The GitHub token to use for releasing'
     required: true
@@ -42,8 +39,12 @@ runs:
       env:
         GITHUB_TOKEN: ${{ inputs.github-token }}
         NPM_TOKEN: ${{ inputs.npm-token }}
-      run: npx semantic-release
-      working-directory: ${{ inputs.entry-point }}
+        BRANCH_NAME: ${{ steps.branch-name.outputs.current_branch }}
+      run: |
+        for feat in $(pwd)/packages/*; do
+          cd $feat
+          npx semantic-release
+        done
       shell: bash
     - name: "Restore 'include administrators' default branch protection"
       uses: benjefferies/branch-protection-bot@master
