@@ -45,6 +45,10 @@ runs:
           cd $feat
           npx semantic-release
         done
+        git add -A
+        git commit -m "ci: Version bump; update changelog"
+        git pull --no-ff
+        git push
       shell: bash
     - name: "Restore 'include administrators' default branch protection"
       uses: benjefferies/branch-protection-bot@master
