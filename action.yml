@@ -41,6 +41,8 @@ runs:
         NPM_TOKEN: ${{ inputs.npm-token }}
         BRANCH_NAME: ${{ steps.branch-name.outputs.current_branch }}
       run: |
+        git config user.name "github-actions[bot]"
+        git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
         for feat in $(pwd)/packages/*; do
           cd $feat
           (npx semantic-release) || true
