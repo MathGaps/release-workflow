@@ -43,7 +43,7 @@ runs:
       run: |
         for feat in $(pwd)/packages/*; do
           cd $feat
-          npx semantic-release
+          (npx semantic-release) || true
         done
         git add -A
         git commit -m "ci: Version bump; update changelog"
